@@ -31,7 +31,13 @@ export default function Login() {
       });
 
       if (result?.error) {
-        throw new Error('Credenciais inválidas');
+        // Map the error messages to more user-friendly versions
+        const errorMessages: { [key: string]: string } = {
+          'Credenciais inválidas': 'Email ou senha incorretos',
+          'Usuário não encontrado': 'Não encontramos uma conta com este email',
+          'Senha incorreta': 'A senha está incorreta'
+        };
+        throw new Error(errorMessages[result.error] || result.error);
       }
 
       router.push('/series-restrito');

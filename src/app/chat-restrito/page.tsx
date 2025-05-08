@@ -136,7 +136,7 @@ export default function SeriesPage() {
             <h2 className="text-lg font-bold mb-2 lg:mb-3">Aulas Disponíveis</h2>
             <div className="space-y-1 lg:space-y-2">
               {episodes.map((episode) => (
-                <button
+          <button
                   key={episode.id}
                   onClick={() => setActiveEpisode(episode.id)}
                   className={`w-full flex items-center gap-2 lg:gap-3 p-2 rounded-lg transition-colors ${
@@ -151,10 +151,10 @@ export default function SeriesPage() {
                     <p className="text-xs text-gray-200">{episode.title}</p>
                     <p className="text-xs text-gray-400 mt-1">{episode.duration}</p>
                   </div>
-                </button>
+          </button>
               ))}
             </div>
-          </div>
+        </div>
 
           {/* Content and Materials */}
           <div className="space-y-3 md:space-y-4 lg:space-y-4 px-4 md:p-4 lg:p-4">
@@ -167,7 +167,7 @@ export default function SeriesPage() {
                 <p className="text-xs text-[#5a96f4]">
                   Este é um treinamento exclusivo para parceiros oficiais.
                 </p>
-              </div>
+                </div>
             </section>
 
             <section className="bg-gray-900/50 p-4 rounded-lg">
@@ -191,4 +191,4 @@ export default function SeriesPage() {
       <Navigation />
     </div>
   )
-} 
+}
