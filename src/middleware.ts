@@ -27,9 +27,13 @@ export default withAuth(
     callbacks: {
       authorized: ({ token }) => !!token
     },
+    pages: {
+      signIn: '/login',
+    },
   }
 )
 
+// Configurar quais rotas devem ser protegidas
 export const config = {
   matcher: [
     '/chat',

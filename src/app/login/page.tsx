@@ -40,7 +40,15 @@ export default function Login() {
         throw new Error(errorMessages[result.error] || result.error);
       }
 
-      router.push('/series-restrito');
+      // Aguardar um momento antes de redirecionar
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Forçar um hard redirect se o router.push não funcionar
+      if (result?.ok) {
+        window.location.href = '/series-restrito';
+      } else {
+        router.push('/series-restrito');
+      }
     } catch (err) {
       console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'Erro ao fazer login');
