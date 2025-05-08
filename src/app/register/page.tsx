@@ -55,7 +55,6 @@ export default function Register() {
     }
 
     try {
-      // Substituir chamada do Supabase por sua API de registro
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -69,21 +68,23 @@ export default function Register() {
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.message);
+        const errorData = await response.json().catch(() => ({
+          message: 'Erro ao processar resposta do servidor'
+        }));
+        throw new Error(errorData.message || 'Erro desconhecido');
+      }
+
+      const data = await response.json().catch(() => null);
+      if (!data || !data.success) {
+        throw new Error(data?.message || 'Erro desconhecido ao processar resposta');
       }
 
       // Redirecionar para confirmação de email
       router.push('/confirm-email?email=' + encodeURIComponent(email));
     } catch (err) {
       console.error('Unexpected error:', err);
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Ocorreu um erro inesperado');
-      }
+      setError(err instanceof Error ? err.message : 'Ocorreu um erro inesperado');
     } finally {
       setIsSubmitting(false);
     }

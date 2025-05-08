@@ -12,9 +12,6 @@ const XLogo = () => {
         className="h-auto"
         priority
       />
-      <p className="text-sm text-zinc-400 text-center">
-        Curso Gratuito em Parceria com Daniel Katsu
-      </p>
     </div>
   );
 };

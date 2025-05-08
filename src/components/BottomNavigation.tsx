@@ -1,52 +1,34 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useSession } from "next-auth/react";
+import { usePathname } from 'next/navigation';
 
 export function BottomNavigation() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { data: session } = useSession();
-
-  const handleLogout = async () => {
-    try {
-      // Limpar qualquer estado local relacionado à autenticação
-      localStorage.removeItem('supabase.auth.token');
-      
-      // Redirecionar para a página de login
-      router.push('/login');
-      
-      // Forçar um hard refresh da página
-      window.location.reload();
-    } catch (error) {
-      console.error('Erro ao fazer logout:', error);
-    }
-  };
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-black p-4">
       <div className="flex justify-around items-center">
-        <Link href="/grafico" className={`text-gray-100 ${pathname === '/grafico' ? 'text-green-400' : ''}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-          </svg>
-        </Link>
-        <Link href="/cursos" className={`text-gray-100 ${pathname === '/cursos' ? 'text-green-400' : ''}`}>
+        <Link href="/series-restrito" className={`text-gray-100 flex flex-col items-center ${pathname === '/series-restrito' ? 'text-[#5a96f4]' : ''}`}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
+          <span className="text-xs mt-1">Tutoriais</span>
         </Link>
-        <Link href="/chat" className={`text-gray-100 ${pathname === '/chat' ? 'text-green-400' : ''}`}>
+        
+        <Link href="/grupos" className={`text-gray-100 flex flex-col items-center ${pathname === '/grupos' ? 'text-[#5a96f4]' : ''}`}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
+          <span className="text-xs mt-1">Grupos</span>
         </Link>
-        <button onClick={handleLogout} className="text-gray-100">
+
+        <Link href="/ranking" className={`text-gray-100 flex flex-col items-center ${pathname === '/ranking' ? 'text-[#5a96f4]' : ''}`}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
           </svg>
-        </button>
+          <span className="text-xs mt-1">Ranking</span>
+        </Link>
       </div>
     </nav>
   );

@@ -11,8 +11,3 @@ export const prisma =
   })
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
-
-// Teste a conexão
-prisma.$connect()
-  .then(() => console.log('Conectado ao PostgreSQL'))
-  .catch((error) => console.error('Erro ao conectar ao PostgreSQL:', error)) 

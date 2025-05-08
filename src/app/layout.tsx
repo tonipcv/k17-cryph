@@ -9,8 +9,8 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Futuros Tech',
-  description: 'Futuros Tech - Plataforma de Sinais',
+  title: 'Partners.io - Ganhe de 10 mil a 100 mil reais por mês',
+  description: 'Descubra como ganhar de 10 mil a 100 mil reais por mês com a Partners.io',
 };
 
 export default function RootLayout({

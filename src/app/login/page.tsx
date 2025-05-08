@@ -45,7 +45,7 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-sm font-satoshi tracking-[-0.03em]">
         {/* Mensagem de erro */}
         {error && (
           <div className="mb-6 text-red-500 text-center text-sm">{error}</div>
@@ -79,7 +79,7 @@ export default function Login() {
 
           <button 
             type="submit" 
-            className="w-full px-4 py-2 text-sm font-medium text-black bg-white rounded-xl hover:bg-gray-100 transition-all duration-200 shadow-sm"
+            className="w-full px-4 py-2 text-sm font-medium text-white bg-black border border-white rounded-xl hover:border-opacity-80 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-200"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Entrando...' : 'Entrar'}

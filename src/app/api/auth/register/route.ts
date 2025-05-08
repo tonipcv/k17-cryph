@@ -6,12 +6,21 @@ import crypto from 'crypto';
 
 export async function POST(req: Request) {
   try {
-    const { email, password, name, phone } = await req.json();
+    const body = await req.json();
+    const { email, password, name, phone } = body;
 
     // Validar campos obrigatórios
     if (!email || !password || !name) {
       return NextResponse.json(
-        { message: 'Campos obrigatórios faltando' },
+        { 
+          success: false,
+          message: 'Campos obrigatórios faltando',
+          fields: {
+            email: !email ? 'Email é obrigatório' : null,
+            password: !password ? 'Senha é obrigatória' : null,
+            name: !name ? 'Nome é obrigatório' : null,
+          }
+        },
         { status: 400 }
       );
     }
@@ -23,7 +32,10 @@ export async function POST(req: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { message: 'Este e-mail já está registrado' },
+        { 
+          success: false,
+          message: 'Este e-mail já está registrado',
+        },
         { status: 400 }
       );
     }
@@ -74,6 +86,7 @@ export async function POST(req: Request) {
 
       return NextResponse.json(
         { 
+          success: true,
           message: 'Usuário criado com sucesso. Por favor, verifique seu email.',
           userId: user.id 
         },
@@ -82,14 +95,22 @@ export async function POST(req: Request) {
     } catch (dbError) {
       console.error('Database error:', dbError);
       return NextResponse.json(
-        { message: 'Erro ao criar usuário no banco de dados' },
+        { 
+          success: false,
+          message: 'Erro ao criar usuário no banco de dados',
+          error: process.env.NODE_ENV === 'development' ? dbError : undefined
+        },
         { status: 500 }
       );
     }
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(
-      { message: 'Erro ao processar a requisição' },
+      { 
+        success: false,
+        message: 'Erro ao processar a requisição',
+        error: process.env.NODE_ENV === 'development' ? error : undefined
+      },
       { status: 500 }
     );
   } finally {

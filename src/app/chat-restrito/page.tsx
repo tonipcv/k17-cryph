@@ -1,436 +1,194 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 
-'use client';
+'use client'
 
-import { Navigation } from '../components/Navigation';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import OptimizedImage from 'next/image';
-import { useSession } from "next-auth/react";
-import { BottomNavigation } from '../../components/BottomNavigation';
+import Link from 'next/link'
+import { useState } from 'react'
+import { DocumentArrowDownIcon, BookOpenIcon, PlayCircleIcon } from '@heroicons/react/24/outline'
+import { OptimizedImage } from '../components/OptimizedImage'
+import { Navigation } from '../components/Navigation'
+import { PandaPlayer } from '../components/PandaPlayer'
+import { BottomNavigation } from '../../components/BottomNavigation'
 
-interface Message {
-  id: number;
-  text: string;
-  createdAt: string;
+interface Episode {
+  id: number
+  title: string
+  description: string
+  duration: string
+  thumbnail: string
+  number: number
+  videoId: string
 }
 
-export default function ChatRestrito() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { data: session } = useSession();
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
+export default function SeriesPage() {
+  const [activeEpisode, setActiveEpisode] = useState<number | null>(1)
 
-  const dummyMessages: Message[] = [
+  const episodes: Episode[] = [
     {
       id: 1,
-      text: "COMPRA #BTCUSDT\nEntrada na zona 42.500\nALAVANCAGEM ISOLADA 10x\nAlvos: 43.000 - 43.500 - 44.000\nStooploss: 42.000",
-      createdAt: new Date(Date.now() - 15 * 60000).toISOString()
+      title: "Por que se tornar um parceiro do FuturosTech?",
+      description: "Descubra por que ser parceiro do FuturosTech pode ser a forma mais inteligente de aumentar sua banca e começar a gerar uma renda extra com o mercado de criptoativos. Nesta aula, você entende o papel estratégico do programa e como isso impacta diretamente sua liberdade financeira.",
+      duration: "10:00",
+      thumbnail: "",
+      number: 1,
+      videoId: "c5dbb724-cf4f-44c5-847a-df1a60524e05"
     },
     {
       id: 2,
-      text: "VENDA #ETHUSDT\nEntrada na zona 2.250\nALAVANCAGEM ISOLADA 10x\nAlvos: 2.200 - 2.150 - 2.100\nStooploss: 2.300",
-      createdAt: new Date(Date.now() - 30 * 60000).toISOString()
+      title: "Como funciona o programa de parceria na prática",
+      description: "Conheça os dois níveis do programa (VIP e Super VIP), quais comissões você pode receber, e quais os benefícios reais que cada parceiro tem acesso. Tudo explicado de forma clara, com números reais e exemplos práticos.",
+      duration: "12:00",
+      thumbnail: "",
+      number: 2,
+      videoId: "80272c83-624b-4505-9c3a-610568a9bbf8"
     },
     {
       id: 3,
-      text: "Take-Profit #BTCUSDT\nFuturos Tech\nLucro: +1.85%\nPeríodo: 35min ⏰\nAlvo: 1",
-      createdAt: new Date(Date.now() - 45 * 60000).toISOString()
+      title: "Como se cadastrar e pedir a afiliação na Hotmart",
+      description: "Passo a passo simples e direto para criar sua conta na Hotmart, solicitar sua afiliação ao produto e preencher o formulário de forma correta.",
+      duration: "15:00",
+      thumbnail: "",
+      number: 3,
+      videoId: "d8deced3-9055-4b0e-b5f8-cc34e6327c58"
     },
     {
       id: 4,
-      text: "COMPRA #SOLUSDT\nEntrada na zona 125.50\nALAVANCAGEM ISOLADA 10x\nAlvos: 127.00 - 128.50 - 130.00\nStooploss: 124.00",
-      createdAt: new Date(Date.now() - 60 * 60000).toISOString()
+      title: "Como ser aprovado e desbloquear seus ganhos",
+      description: "Saiba quais são os critérios para aprovação como parceiro, o que pode te reprovar e como garantir que você comece a receber suas comissões de forma correta e segura.",
+      duration: "8:00",
+      thumbnail: "",
+      number: 4,
+      videoId: "a0bbe1ce-bccc-4bda-b7a7-38dab797b072"
     },
     {
       id: 5,
-      text: "Take-Profit #ETHUSDT\nFuturos Tech\nLucro: +2.15%\nPeríodo: 1h20min ⏰\nAlvo: 2",
-      createdAt: new Date(Date.now() - 75 * 60000).toISOString()
+      title: "Como fazer suas primeiras vendas com amigos e contatos próximos",
+      description: "Descubra como gerar suas primeiras vendas usando apenas o seu celular e seu círculo de contatos. Com o link certo, cupom de desconto e uma abordagem simples, você já pode começar a ganhar hoje.",
+      duration: "20:00",
+      thumbnail: "",
+      number: 5,
+      videoId: "21a9132e-1edb-4f95-8bc8-38f3a617ac9e"
     },
     {
       id: 6,
-      text: "VENDA #BNBUSDT\nEntrada na zona 315.00\nALAVANCAGEM ISOLADA 10x\nAlvos: 312.00 - 310.00 - 308.00\nStooploss: 317.00",
-      createdAt: new Date(Date.now() - 90 * 60000).toISOString()
+      title: "Estratégias para atrair pessoas novas com autoridade e conteúdo",
+      description: "Aprenda a divulgar de forma natural no seu próprio Instagram, como gerar interesse real com resultados, e como usar os conteúdos prontos do drive para atrair leads sem parecer vendedor.",
+      duration: "18:00",
+      thumbnail: "",
+      number: 6,
+      videoId: "f4b87324-297b-4036-ade1-a1eb69e15e6b"
     },
     {
       id: 7,
-      text: "AVISO\nEntrada editada, zona de entrada atualizada\nÓtimo dia a todos!\nAtt Futuros Tech",
-      createdAt: new Date(Date.now() - 105 * 60000).toISOString()
-    },
-    {
-      id: 8,
-      text: "Take-Profit #SOLUSDT\nFuturos Tech\nLucro: +1.95%\nPeríodo: 45min ⏰\nAlvo: 1",
-      createdAt: new Date(Date.now() - 120 * 60000).toISOString()
-    },
-    {
-      id: 9,
-      text: "COMPRA #ADAUSDT\nEntrada na zona 0.585\nALAVANCAGEM ISOLADA 10x\nAlvos: 0.595 - 0.605 - 0.615\nStooploss: 0.575",
-      createdAt: new Date(Date.now() - 135 * 60000).toISOString()
-    },
-    {
-      id: 10,
-      text: "Take-Profit #BNBUSDT\nFuturos Tech\nLucro: +2.25%\nPeríodo: 1h05min ⏰\nAlvo: 3",
-      createdAt: new Date(Date.now() - 150 * 60000).toISOString()
+      title: "Como virar Super VIP e aumentar seus ganhos",
+      description: "Veja o que muda quando você bate 10 vendas no mês: comissões maiores, grupo fechado, bônus, viagens e reconhecimento. Aqui você entende por que o Super VIP é o verdadeiro sócio do projeto.",
+      duration: "15:00",
+      thumbnail: "",
+      number: 7,
+      videoId: "917acb9f-62ad-4310-858a-4e6b772ce0c5"
     }
-  ];
+  ]
 
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        if (!session) {
-          router.push('/');
-        } else {
-          await pollMessages();
-        }
-      } finally {
-        setIsInitialLoading(false);
-      }
-    };
-
-    checkUser();
-
-    const intervalId = setInterval(pollMessages, 5000);
-    const weeklyIntervalId = setInterval(pollMessages, 7 * 24 * 60 * 60 * 1000);
-
-    return () => {
-      clearInterval(intervalId);
-      clearInterval(weeklyIntervalId);
-    };
-  }, [router, session]);
-
-  const pollMessages = async () => {
-    if (isLoading) return;
-    setIsLoading(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      const updatedMessages = dummyMessages.map(msg => ({
-        ...msg,
-        createdAt: new Date(Date.now() - Math.random() * 180 * 60000).toISOString()
-      }));
-      
-      setMessages(updatedMessages.sort((a, b) => 
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      ));
-    } catch (error) {
-      console.error('Error fetching messages:', error);
-      setMessages(dummyMessages);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-
-    const options: Intl.DateTimeFormatOptions = {
-      timeZone: 'America/Sao_Paulo',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    };
-
-    const brazilTime = date.toLocaleString('pt-BR', options);
-    const [datePart] = date.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short' }).split(',');
-    const [nowDatePart] = now.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short' }).split(',');
-
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
-    const [yesterdayDatePart] = yesterday.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short' }).split(',');
-
-    if (datePart === nowDatePart) {
-      return `Hoje, ${brazilTime}`;
-    } else if (datePart === yesterdayDatePart) {
-      return `Ontem, ${brazilTime}`;
-    } else {
-      return date.toLocaleString('pt-BR', {
-        timeZone: 'America/Sao_Paulo',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      });
-    }
-  };
-
-  const removeEmojis = (text: string) => {
-    let modifiedText = text.replace(/🟢/g, '-');
-    modifiedText = modifiedText.replace(/️(\s*)ALAVANCAGEM ISOLADA/, '$1ALAVANCAGEM ISOLADA');
-    return modifiedText.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
-  };
-
-  const formatMessage = (text: string) => {
-    const lines = removeEmojis(text).split('\n');
-    
-    if (lines[0].includes('COMPRA')) {
-      return formatCompra(lines);
-    } else if (lines[0].includes('VENDA')) {
-      return formatVenda(lines);
-    } else if (lines[0].includes('cancelado')) {
-      return formatCancelado(lines);
-    } else if (lines[0].toLowerCase().includes('take - profit') || lines[0].toLowerCase().includes('take-profit') || (lines[0].toLowerCase().includes('metas') && lines[0].toLowerCase().includes('alcançadas'))) {
-      return formatTakeProfit(lines);
-    } else if (lines[0].toLowerCase().includes('aviso')) {
-      return formatAviso(lines);
-    }
-    
-    return lines.map((line, index) => (
-      <p key={index} className={`text-${getTextColor(line)}`}>{line.trim()}</p>
-    ));
-  };
-
-
-  const getTextColor = (line: string) => {
-    if (line.toLowerCase().includes('compra')) return 'green-500 font-bold';
-    if (line.toLowerCase().includes('alvos:')) return 'white';
-    if (line.toLowerCase().startsWith('stooploss')) return 'gray-500';
-    return 'white';
-  };
-
-  const formatTakeProfit = (lines: string[]) => {
-    // Extrai as informações do texto
-    const header = lines[0];
-    let type = '', lucro = '', periodo = '', alvo = '';
-    
-    lines.forEach(line => {
-      if (line.toLowerCase().includes('futuros')) type = line;
-      if (line.toLowerCase().includes('lucro')) lucro = line;
-      if (line.toLowerCase().includes('período')) periodo = line;
-      if (line.toLowerCase().includes('alvo:')) alvo = line;
-    });
-
-    // Extrai o par de trading do cabeçalho e remove o #
-    const tradingPair = header.split('Take')[0].split('Todas')[0].trim().replace('#', '');
-    
-    // Verifica se é um take-profit de todas as metas ou de alvo específico
-    const isFullTakeProfit = header.toLowerCase().includes('todas');
-
-    if (isFullTakeProfit) {
-      return (
-        <div className="bg-gray-700 p-3 rounded-lg text-white">
-          <p className="font-bold text-base md:text-lg text-green-500">LUCRO COM {tradingPair}</p>
-          <p className="text-xs text-gray-400">Graças ao time do Futuros Tech todas as metas foram alcançadas</p>
-          <div className="mt-4">
-            <p className="text-green-500 text-lg md:text-xl font-bold">
-              {lucro.includes(':') ? lucro.split(':')[1].trim() : lucro.replace('Lucro:', '').trim()}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">
-              {periodo.includes(':') ? periodo.split(':')[1].trim().replace('⏰', '') : periodo.replace('Período:', '').trim().replace('⏰', '')}
-            </p>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="bg-gray-700 p-3 rounded-lg text-white">
-          <p className="font-bold text-base md:text-lg text-green-500">LUCRO COM {tradingPair}</p>
-          <div className="mt-2 flex items-center gap-2">
-            <span className="bg-green-300 text-black px-2 py-0.5 rounded-full text-xs">
-              Alvo {alvo.includes(':') ? alvo.split(':')[1].trim() : alvo.replace('Alvo:', '').trim()}
-            </span>
-            <span className="text-xs text-gray-400">atingido</span>
-          </div>
-          <div className="mt-4">
-            <p className="text-green-500 text-lg md:text-xl font-bold">
-              {lucro.includes(':') ? lucro.split(':')[1].trim() : lucro.replace('Lucro:', '').trim()}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">
-              {periodo.includes(':') ? periodo.split(':')[1].trim().replace('⏰', '') : periodo.replace('Período:', '').trim().replace('⏰', '')}
-            </p>
-          </div>
-        </div>
-      );
-    }
-  };
-  
-
-  const formatTargets = (line: string) => {
-    const [label, targetsString] = line.split(':');
-    const targets = targetsString.split('-').map(t => t.trim()).filter(t => t !== '');
-    return (
-      <div className="mt-1">
-        <p className="text-white font-bold">{label.trim()}:</p>
-        <div className="flex flex-wrap gap-1 mt-1">
-          {targets.map((target, index) => (
-            <span key={index} className="bg-green-300 text-black px-2 py-0.5 rounded-full text-xs">
-              {target}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const formatCompra = (lines: string[]) => {
-    const [header, ...rest] = lines;
-    let entradaZona = '', alavancagem = '', stoploss = '';
-    const alvos: string[] = [];
-
-    rest.forEach(line => {
-      if (line.toLowerCase().includes('entrada na zona')) entradaZona = line;
-      if (line.toLowerCase().includes('alavancagem isolada')) alavancagem = line;
-      if (line.toLowerCase().includes('alvos:')) alvos.push(...line.split(':')[1].split('-').map(a => a.trim()));
-      if (line.toLowerCase().includes('stooploss')) stoploss = line;
-    });
-
-    return (
-      <div className="bg-gray-700 p-3 rounded-lg text-white">
-        <p className="font-bold text-base md:text-lg text-green-500">{header.replace('#', '').trim()}</p>
-        {entradaZona && <p className="mt-2 text-xs md:text-sm">{entradaZona}</p>}
-        {alavancagem && <p className="mt-1 text-xs md:text-sm">{alavancagem}</p>}
-        {alvos.length > 0 && formatTargets(`Alvos: ${alvos.join(' - ')}`)}
-        {stoploss && <p className="mt-2 text-gray-200 text-xs md:text-sm">{stoploss}</p>}
-      </div>
-    );
-  };
-
-  const formatCancelado = (lines: string[]) => {
-    const [header, ...rest] = lines;
-    let message = rest.join(' ').replace('@FuturosTech', '').trim();
-    if (message.endsWith('<')) message = message.slice(0, -1) + '.';
-    else if (!message.endsWith('.')) message += '.';
-
-    return (
-      <div className="bg-gray-700 p-3 rounded-lg text-white">
-        <p className="font-bold text-base md:text-lg text-gray-200">{header.replace('#', '').trim()}</p>
-        <p className="mt-2 text-gray-300 text-xs md:text-sm">{message}</p>
-      </div>
-    );
-  };
-
-  const formatVenda = (lines: string[]) => {
-    const [header, ...rest] = lines;
-    let entradaZona = '', alavancagem = '', stoploss = '';
-    const alvos: string[] = [];
-
-    rest.forEach(line => {
-      if (line.toLowerCase().includes('entrada na zona')) entradaZona = line;
-      if (line.toLowerCase().includes('alavancagem isolada')) alavancagem = line;
-      if (line.toLowerCase().includes('alvos:')) alvos.push(...line.split(':')[1].split('-').map(a => a.trim()));
-      if (line.toLowerCase().includes('stooploss')) stoploss = line;
-    });
-
-    return (
-      <div className="bg-gray-700 p-3 rounded-lg text-white">
-        <p className="font-bold text-base md:text-lg text-green-500">{header.replace('#', '').trim()}</p>
-        {entradaZona && <p className="mt-2 text-xs md:text-sm">{entradaZona}</p>}
-        {alavancagem && <p className="mt-1 text-xs md:text-sm">{alavancagem}</p>}
-        {alvos.length > 0 && formatTargets(`Alvos: ${alvos.join(' - ')}`)}
-        {stoploss && <p className="mt-2 text-gray-200 text-xs md:text-sm">{stoploss}</p>}
-      </div>
-    );
-  };
-
-  const formatAviso = (lines: string[]) => {
-    return (
-      <div className="bg-gray-700 p-3 rounded-lg text-white">
-        <div className="flex items-center gap-2">
-          <span className="bg-gray-600 text-gray-300 px-2 py-0.5 rounded-full text-xs font-medium">
-            Atenção
-          </span>
-        </div>
-        <p className="mt-2 text-sm">Entrada editada, zona de entrada atualizada</p>
-        <p className="mt-2 text-xs text-gray-400">Ótimo dia a todos!</p>
-        <p className="mt-1 text-xs text-gray-400">Att Futuros Tech</p>
-      </div>
-    );
-  };
-
-  if (isInitialLoading) {
-    return (
-      <div className="min-h-screen bg-[#111] flex items-center justify-center">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce"></div>
-        </div>
-      </div>
-    );
-  }
+  const currentEpisode = episodes.find(ep => ep.id === activeEpisode)
 
   return (
-    <div className="min-h-screen bg-[#111] text-gray-200">
-      {/* Disclaimer Minimalista */}
-      <div className="fixed top-[4.5rem] left-1/2 -translate-x-1/2 z-10 px-4 w-full max-w-sm">
-        <div className="bg-black/60 backdrop-blur-sm rounded-full py-1.5 px-4 flex items-center justify-between gap-3">
-          <p className="text-xs text-gray-300 truncate">
-            Versão gratuita. Acesso limitado
-          </p>
-          <Link 
-            href="/informacao"
-            className="text-green-400 text-xs font-medium hover:text-green-300 transition-colors whitespace-nowrap"
-          >
-            Fazer Upgrade
-          </Link>
-        </div>
-      </div>
-
+    <div className="min-h-screen bg-black text-gray-200 font-satoshi tracking-[-0.03em]">
       {/* Header */}
-      <header className="fixed top-0 w-full bg-[#111]/90 backdrop-blur-sm z-50 px-4 py-3">
-        <div className="flex justify-center lg:justify-start items-center gap-4">
+      <header className="fixed top-0 w-full bg-black/90 backdrop-blur-sm z-50 px-4 py-3">
+        <div className="flex justify-center lg:justify-start items-center">
           <Link href="/" className="flex items-center">
             <OptimizedImage src="/ft-icone.png" alt="Futuros Tech Logo" width={40} height={40} />
-          </Link>
-          <Link 
-            href="/informacao"
-            className="text-xs px-3 py-1 bg-green-500 text-black font-medium rounded-full hover:bg-green-400 transition-colors"
-          >
-            Seja premium!
           </Link>
         </div>
       </header>
 
-      <div className="w-full md:w-1/2 lg:w-1/2 md:mx-auto lg:mx-auto h-[calc(100vh-8.5rem)]">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4 px-4 md:px-0">
-          <h1 className="font-helvetica text-xl">Alertas de Entradas:</h1>
-          <button
-            onClick={pollMessages}
-            disabled={isLoading}
-            className="p-2 text-white hover:text-green-300 focus:outline-none transition-colors duration-200"
-            title="Atualizar sinais"
-          >
-            {isLoading ? (
-              <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            ) : (
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            )}
-          </button>
-        </div>
+      {/* Main Content */}
+      <main className="pt-14 pb-20">
+        {/* Hero Section */}
+        {!activeEpisode && (
+          <div className="relative bg-black h-48 md:h-32 lg:h-32 flex items-center">
+            <div className="w-full md:w-1/2 lg:w-1/2 md:mx-auto lg:mx-auto">
+              <div className="px-6 py-8 md:py-4 lg:py-4">
+                <h1 className="text-2xl font-bold mb-3 md:mb-1 lg:mb-1">Programa de Parceiros</h1>
+                <p className="text-sm text-gray-300">Aprenda como se tornar um parceiro oficial e começar a lucrar com o mercado de criptoativos</p>
+              </div>
+            </div>
+          </div>
+        )}
 
-        {/* Mensagens com Blur */}
-        <div className="rounded-lg shadow-md p-4 overflow-y-auto mx-4 md:mx-0 h-[calc(100%-3rem)] relative">
-          <div className="space-y-2 blur-[8px] select-none pointer-events-none">
-            {messages.map((message, index) => {
-              const formattedMessage = formatMessage(message.text);
-              if (!formattedMessage) return null;
-              return (
-                <div key={index} className="bg-gray-700 p-3 rounded-2xl border border-gray-700">
-                  <div className="text-sm md:text-base">{formattedMessage}</div>
-                  <p className="text-gray-400 text-xs mt-1">{formatDate(message.createdAt)}</p>
-                </div>
-              );
-            })}
+        {/* Video Player Section */}
+        {activeEpisode && currentEpisode && (
+          <div className="bg-black">
+            <div className="w-full md:w-1/2 lg:w-1/2 md:mx-auto lg:mx-auto bg-black">
+              <PandaPlayer videoId={currentEpisode.videoId} />
+            </div>
+            <div className="px-6 py-4 bg-black md:w-1/2 lg:w-1/2 md:mx-auto lg:mx-auto">
+              <h2 className="text-xl font-bold">{currentEpisode.title}</h2>
+              <p className="text-sm text-gray-400 mt-2">{currentEpisode.description}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Episodes List and Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:w-1/2 lg:w-1/2 md:mx-auto lg:mx-auto gap-0">
+          {/* Episodes List */}
+          <div className="md:h-[calc(100vh-11rem)] lg:h-[calc(100vh-11rem)] md:overflow-y-auto lg:overflow-y-auto px-4 pb-2 md:p-4 lg:p-4">
+            <h2 className="text-lg font-bold mb-2 lg:mb-3">Aulas Disponíveis</h2>
+            <div className="space-y-1 lg:space-y-2">
+              {episodes.map((episode) => (
+                <button
+                  key={episode.id}
+                  onClick={() => setActiveEpisode(episode.id)}
+                  className={`w-full flex items-center gap-2 lg:gap-3 p-2 rounded-lg transition-colors ${
+                    activeEpisode === episode.id 
+                      ? 'bg-gray-400/30 border-l-4 border-[#5a96f4]' 
+                      : 'hover:bg-gray-800'
+                  }`}
+                >
+                  <PlayCircleIcon className="w-8 h-8 text-[#5a96f4]" />
+                  <div className="flex-1 text-left">
+                    <h3 className="font-semibold text-[#5a96f4] text-sm">Aula {episode.number}</h3>
+                    <p className="text-xs text-gray-200">{episode.title}</p>
+                    <p className="text-xs text-gray-400 mt-1">{episode.duration}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Overlay para bloquear inspeção */}
-          <div className="absolute inset-0 bg-transparent" />
-        </div>
-      </div>
+          {/* Content and Materials */}
+          <div className="space-y-3 md:space-y-4 lg:space-y-4 px-4 md:p-4 lg:p-4">
+            <section className="bg-gray-900/50 backdrop-blur-sm p-3 lg:p-4 rounded-lg">
+              <h2 className="text-lg font-bold mb-3">Programa de Parceiros:</h2>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                Aprenda como se tornar um parceiro oficial e começar a lucrar com o mercado de criptoativos. Siga o passo a passo e comece a gerar renda extra hoje mesmo.
+              </p>
+              <div className="mt-3 p-3 bg-[#5a96f4]/10 border border-[#5a96f4]/50 rounded-lg">
+                <p className="text-xs text-[#5a96f4]">
+                  Este é um treinamento exclusivo para parceiros oficiais.
+                </p>
+              </div>
+            </section>
 
-      {/* Adicionar o componente Navigation */}
+            <section className="bg-gray-900/50 p-4 rounded-lg">
+              <h2 className="text-lg font-bold mb-3">Acesso VIP</h2>
+              <p className="text-sm text-gray-300 mb-4">
+                Torne-se um parceiro VIP e tenha acesso a benefícios exclusivos, comissões maiores e suporte dedicado.
+              </p>
+              <a 
+                href="/informacao"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center px-4 py-2.5 border border-[#5a96f4] text-[#5a96f4] text-sm font-medium rounded-lg hover:bg-[#5a96f4] hover:text-black transition-all duration-200"
+              >
+                Quero ser VIP
+              </a>
+            </section>
+          </div>
+        </div>
+      </main>
+
       <Navigation />
     </div>
-  );
-}
+  )
+} 

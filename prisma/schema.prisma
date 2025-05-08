@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgres://postgres:e965fd9c7bad820e93a3@dpbdp1.easypanel.host:3210/aa?sslmode=disable"
 }
 
 model User {

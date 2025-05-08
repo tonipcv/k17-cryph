@@ -17,7 +17,7 @@ export function BottomNavigation() {
   }
 
   return (
-    <nav className="fixed bottom-0 w-full bg-[#111]/90 backdrop-blur-sm border-t border-gray-800">
+    <nav className="fixed bottom-0 w-full bg-black/90 backdrop-blur-sm border-t border-gray-800">
       <div className="flex justify-around items-center h-16">
         <Link href="/series" className={`flex flex-col items-center ${isActive('/series') ? 'text-green-300' : 'text-gray-400'} transition-colors hover:text-green-300`}>
           <AcademicCapIcon className="w-6 h-6" />
