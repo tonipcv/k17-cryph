@@ -134,9 +134,6 @@ export default function SeriesPage() {
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center space-x-3">
               <OptimizedImage src="/ft-icone.png" alt="K17 Logo" width={40} height={40} />
-              <span className="text-xl font-bold text-white">
-                K17 Academy
-              </span>
             </Link>
           </div>
         </div>
