@@ -9,8 +9,8 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Partners.io - Ganhe de 10 mil a 100 mil reais por mês',
-  description: 'Descubra como ganhar de 10 mil a 100 mil reais por mês com a Partners.io',
+  title: 'CRYPH - High-end Crypto Social Club',
+  description: 'CRYPH é um clube social de criptomoedas de alto nível, com uma comunidade de investidores e traders apaixonados por criptografia e blockchain.',
 };
 
 export default function RootLayout({

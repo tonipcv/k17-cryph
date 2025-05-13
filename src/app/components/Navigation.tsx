@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import {
   BookOpenIcon,
-  ChartBarSquareIcon,
   ArrowRightOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
@@ -20,11 +19,6 @@ export function Navigation() {
       href: '/series-restrito',
       icon: BookOpenIcon,
       label: 'Tutoriais'
-    },
-    {
-      href: '/ranking',
-      icon: ChartBarSquareIcon,
-      label: 'Ranking'
     }
   ];
 
@@ -50,8 +44,8 @@ export function Navigation() {
                 key={item.href}
                 href={item.href}
                 className={`flex flex-col items-center ${
-                  pathname === item.href ? 'text-[#5a96f4]' : 'text-gray-400'
-                } transition-colors hover:text-[#5a96f4]`}
+                  pathname === item.href ? 'text-green-300' : 'text-gray-400'
+                } transition-colors hover:text-green-300`}
               >
                 <item.icon className="w-6 h-6" />
                 <span className="text-xs mt-1">{item.label}</span>
@@ -60,7 +54,7 @@ export function Navigation() {
             
             <button
               onClick={() => setShowLogoutModal(true)}
-              className="flex flex-col items-center text-gray-400 transition-colors hover:text-[#5a96f4]"
+              className="flex flex-col items-center text-gray-400 transition-colors hover:text-green-300"
             >
               <ArrowRightOnRectangleIcon className="w-6 h-6" />
               <span className="text-xs mt-1">Sair</span>

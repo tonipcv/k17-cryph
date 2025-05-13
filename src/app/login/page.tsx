@@ -109,14 +109,6 @@ export default function Login() {
             >
               Esqueceu a senha?
             </Link>
-            <span className="text-zinc-600">•</span>
-            <Link 
-              href="/register" 
-              className="text-sm text-white hover:text-zinc-300 transition-colors duration-200 flex items-center gap-1"
-            >
-              Criar conta
-              <ArrowRightIcon className="w-3 h-3" />
-            </Link>
           </div>
         </div>
       </div>
