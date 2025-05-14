@@ -134,6 +134,9 @@ export default function SeriesPage() {
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center space-x-3">
               <OptimizedImage src="/ft-icone.png" alt="K17 Logo" width={40} height={40} />
+              <span className="text-xl font-bold text-white">
+                ARS
+              </span>
             </Link>
           </div>
         </div>
@@ -174,7 +177,7 @@ export default function SeriesPage() {
                     </span>
                   </h2>
                   <p className="mt-2 text-sm text-gray-400">{module.description}</p>
-                </div>
+            </div>
                 {openModules.includes(module.id) ? (
                   <ChevronUpIcon className="w-6 h-6 ml-4 flex-shrink-0 text-gray-400" />
                 ) : (
@@ -185,7 +188,7 @@ export default function SeriesPage() {
               {openModules.includes(module.id) && (
                 <div className="mt-2 space-y-2 pl-4">
                   {module.videos.map((video) => (
-                    <button
+                <button
                       key={video.id}
                       onClick={() => setActiveVideo(video.id)}
                       className={`w-full flex items-center p-4 rounded-lg transition-all ${
@@ -197,18 +200,18 @@ export default function SeriesPage() {
                       <PlayIcon className={`w-5 h-5 mr-3 ${
                         activeVideo === video.id ? 'text-white' : 'text-gray-500'
                       }`} />
-                      <div className="flex-1 text-left">
+                  <div className="flex-1 text-left">
                         <p className={`text-sm ${
                           activeVideo === video.id ? 'text-white' : 'text-gray-400'
                         }`}>
                           {video.title}
                         </p>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
+                  </div>
+                </button>
+              ))}
             </div>
+              )}
+          </div>
           ))}
         </div>
       </main>

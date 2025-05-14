@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import {
   BookOpenIcon,
+  ChartBarIcon,
   ArrowRightOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
@@ -18,7 +19,12 @@ export function Navigation() {
     {
       href: '/series-restrito',
       icon: BookOpenIcon,
-      label: 'Tutoriais'
+      label: 'ARS'
+    },
+    {
+      href: '/imersao-crypto',
+      icon: ChartBarIcon,
+      label: 'Imersão Crypto'
     }
   ];
 
